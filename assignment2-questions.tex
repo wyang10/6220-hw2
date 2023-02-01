@@ -1,0 +1,69 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\newcommand{\assignment}{2}
+\newcommand{\duedate}{February 1, 2023}
+\input{include/hw-template.tex}
+\author{
+    \textbf{YOUR NAME} \\ 
+    \textbf{YOUR GIT USERNAME} \\ 
+    \textbf{YOUR E-MAIL}
+}% INFORMATION
+
+\begin{document}
+
+\maketitle % Print the title
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Map Reduce in Spark}
+%%%%%%%%%%%%%%%%%%%%
+
+Write a Spark program that implements a simple “People You Might Know” social network friendship recommendation algorithm. The key idea is that if two people have a lot of mutual friends, then the system should recommend that they connect with each other. 
+
+\subsection{Data}
+
+
+
+\begin{itemize}
+    \item Associated data file is \verb"soc-LiveJournal1Adj.txt" in \href{https://course.ccs.neu.edu/cs6220/homework-2/data/}{./data/} at the URL \url{https://course.ccs.neu.edu/cs6220/homework-2/data/}
+    \item The file contains the adjacency list and has multiple lines in the following format: \\ \verb"<User><TAB><Friends>"
+    \item Here, \verb"<User>" is a unique integer ID corresponding to a unique user and \verb"<Friends>" is a comma separated list of unique IDs corresponding to the friends of the user with the unique ID \verb"<User>". Note that the friendships are mutual (i.e., edges are undirected): if A is friend with B then B is also friend with A. The data provided is consistent with that rule as there is an explicit entry for each side of each edge.
+\end{itemize}
+
+\subsection{Algorithm}
+Let us use a simple algorithm such that, for each user U, the algorithm recommends N = 10 users who are not already friends with U, but have the most number of mutual friends in common with U. 
+
+\subsection{Output}
+\begin{itemize}
+    \item The output should contain one line per user in the following format: \\ \verb"<User><TAB><Recommendations>"
+    \item Here, \verb"<User>" is a unique ID corresponding to a user and \verb"<Recommendations>" is a comma separated list of unique IDs corresponding to the algorithm’s recommendation of people that \verb"<User>" might know, ordered in decreasing number of mutual friends. 
+    \item \textbf{Note}: The exact number of recommendations per user could be less than 10. If a user has less than 10 second-degree friends, output all of them in decreasing order of the number of mutual friends. If a user has no friends, you can provide an empty list of recommendations. If there are recommended users with the same number of mutual friends, then output those user IDs in numerically ascending order.
+\end{itemize}
+
+\subsection{Pipeline sketch}
+Please provide a description of how you used Spark to solve this problem. Don’t write more than 3 to 4 sentences for this: we only want a very high-level description of your strategy to tackle this problem. 
+
+\subsection{Tips}
+ Use Google Colab to use Spark seamlessly, e.g., copy and adapt the setup cells from \href{https://colab.research.google.com/drive/1ewNJb9KJBaMwTlsEggirmpmVbO8V7C-q?usp=sharing}{Colab 2-2}, done in class in the second lecture. 
+ 
+\begin{itemize}
+    \item Before submitting a complete application to Spark, you may go line by line, checking the outputs of each step. Command .take(X) should be helpful, if you want to check the first X elements in the RDD. 
+    \item For sanity check, your top 10 recommendations for user ID 11 should be: \\ 27552, 7785, 27573, 27574, 27589, 27590, 27600, 27617, 27620, 27667. 
+    \item The execution may take a while. Our implementations took around 10 minutes. 
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Submission Instructions}
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+    \item Commit your \textbf{Colab} \verb"*.ipynb" file, output file as a single file (call it \textbf{output.txt}) and PDF write-up via from the invited \href{https://classroom.github.com/a/Kog9MCRN}{Github link}. Provide repository URL on \href{https://www.gradescope.com/courses/494275}{Gradescope} before 5pm Wednesday, February 1, 2023.
+    \item Colab has an extensive Markdown capability, so make sure you document your code while writing it. Code’s legibility is part of our grading criterion, so please make sure it’s readable.
+    \item Include a diagram of your pipeline description in your writeup.
+    \item Include in your writeup the recommendations for the users with following user IDs: 924, 8941, 8942, 9019, 9020, 9021, 9022, 9990, 9992, 9993.
+\end{itemize}
+
+
+
+\end{document}
